@@ -13,6 +13,7 @@
 // limitations under the License.
 
 //! `RESTful` API and corresponding utilities.
+// spell-checker:ignore Tful
 
 use std::ops::Deref;
 use std::marker::PhantomData;

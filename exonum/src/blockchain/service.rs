@@ -69,7 +69,7 @@ pub trait Transaction: Message + ExonumJson + 'static {
 ///
 /// # Examples
 ///
-/// The following example provides a barebone foundation for implementing a service.
+/// The following example provides a bare-bones foundation for implementing a service.
 ///
 /// ```
 /// #[macro_use] extern crate exonum;
@@ -96,7 +96,7 @@ pub trait Transaction: Message + ExonumJson + 'static {
 ///     }
 ///
 ///     fn state_hash(&self) -> Vec<Hash> {
-///         // Calculates the shate hash of the service
+///         // Calculates the state hash of the service
 /// #       vec![]
 ///     }
 ///     // Other read-only methods
@@ -199,10 +199,10 @@ pub trait Service: Send + Sync + 'static {
     }
 
     /// Returns an API handler for private requests. The handler is mounted on
-    /// the `/api/services/{service_name}` path on [the private listen address][priv-addr]
+    /// the `/api/services/{service_name}` path on [the private listen address][private-addr]
     /// of all full nodes in the blockchain network.
     ///
-    /// [priv-addr]: ../node/struct.NodeApiConfig.html#structfield.private_api_address
+    /// [private-addr]: ../node/struct.NodeApiConfig.html#structfield.private_api_address
     fn private_api_handler(&self, context: &ApiContext) -> Option<Box<Handler>> {
         None
     }

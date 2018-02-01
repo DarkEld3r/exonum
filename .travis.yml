@@ -81,6 +81,7 @@ install:
   if [[ "$FEATURE" == "fmt" ]]; then
     cargo-audit -V || cargo install cargo-audit --force
     rustfmt -V | grep $RUSTFMT_VERS || cargo install rustfmt --vers $RUSTFMT_VERS --force
+    npm install -g cspell
     fi
 - |
   case "$FEATURE" in
@@ -97,7 +98,8 @@ script: |
       cd sandbox && cargo update && cd .. &&
       cd exonum && cargo audit && cd .. &&
       cd exonum && cargo fmt -- --write-mode=diff && cd .. &&
-      cd sandbox && cargo fmt -- --write-mode=diff && cd ..
+      cd sandbox && cargo fmt -- --write-mode=diff && cd .. &&
+      cspell sandbox/{src,examples,tests}/**/*.rs exonum/{src,benches,tests}/**/*.rs
   ;;
   "clippy-core" )
       cd exonum && cargo clippy --verbose --features long_benchmarks  -- -D warnings

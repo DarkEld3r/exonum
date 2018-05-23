@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use super::config::StoredConfiguration;
+use super::{Block, BlockProof, Blockchain, TransactionResult};
 use crypto::{CryptoHash, Hash, PublicKey};
+use helpers::{Height, Round};
 use messages::{Connect, Precommit, RawMessage};
 use storage::{Entry, Fork, KeySetIndex, ListIndex, MapIndex, MapProof, ProofListIndex,
               ProofMapIndex, Snapshot};
-use helpers::{Height, Round};
-use super::{Block, BlockProof, Blockchain, TransactionResult};
-use super::config::StoredConfiguration;
 
 /// Defines `&str` constants with given name and value.
 macro_rules! define_names {
@@ -48,25 +48,21 @@ define_names!(
     CONSENSUS_ROUND => "consensus_round";
 );
 
-encoding_struct! (
-    /// Configuration index.
-    struct ConfigReference {
-        /// The height, starting from which this configuration becomes actual.
-        actual_from: Height,
-        /// Hash of the configuration contents that serialized as raw bytes vec.
-        cfg_hash: &Hash,
-    }
-);
+encoding_struct!(/// Configuration index.
+struct ConfigReference {
+    /// The height, starting from which this configuration becomes actual.
+    actual_from: Height,
+    /// Hash of the configuration contents that serialized as raw bytes vec.
+    cfg_hash: &Hash,
+});
 
-encoding_struct! (
-    /// Transaction location in block.
-    struct TxLocation {
-        /// Height of block in the blockchain.
-        block_height: Height,
-        /// Index in block.
-        position_in_block: u64,
-    }
-);
+encoding_struct!(/// Transaction location in block.
+struct TxLocation {
+    /// Height of block in the blockchain.
+    block_height: Height,
+    /// Index in block.
+    position_in_block: u64,
+});
 
 /// Information schema for `exonum-core`.
 #[derive(Debug)]

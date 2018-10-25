@@ -17,13 +17,17 @@ use tokio_core::reactor::Core;
 use tokio_timer::{TimeoutStream, Timer};
 
 use std::{
-    net::SocketAddr, thread, time::{self, Duration},
+    net::SocketAddr,
+    thread,
+    time::{self, Duration},
 };
 
 use blockchain::ConsensusConfig;
 use crypto::{gen_keypair, gen_keypair_from_seed, PublicKey, Seed, Signature, SEED_LENGTH};
 use events::{
-    error::log_error, network::{NetworkConfiguration, NetworkPart}, noise::HandshakeParams,
+    error::log_error,
+    network::{NetworkConfiguration, NetworkPart},
+    noise::HandshakeParams,
     NetworkEvent, NetworkRequest,
 };
 use helpers::user_agent;
@@ -70,8 +74,7 @@ impl TestHandler {
                 addr,
                 connect.raw().clone(),
                 public_key,
-            ))
-            .wait()
+            )).wait()
             .unwrap();
     }
 

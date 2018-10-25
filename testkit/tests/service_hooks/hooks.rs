@@ -16,7 +16,10 @@
 
 use exonum::{
     blockchain::{ExecutionResult, Service, ServiceContext, Transaction, TransactionSet},
-    crypto::{Hash, Signature}, encoding, helpers::Height, messages::RawTransaction,
+    crypto::{Hash, Signature},
+    encoding,
+    helpers::Height,
+    messages::RawTransaction,
     storage::{Fork, Snapshot},
 };
 

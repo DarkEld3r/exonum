@@ -20,11 +20,15 @@
 use toml;
 
 use std::{
-    collections::{BTreeMap, HashMap}, fs, net::{IpAddr, SocketAddr}, path::{Path, PathBuf},
+    collections::{BTreeMap, HashMap},
+    fs,
+    net::{IpAddr, SocketAddr},
+    path::{Path, PathBuf},
 };
 
 use super::{
-    internal::{CollectedCommand, Command, Feedback}, keys,
+    internal::{CollectedCommand, Command, Feedback},
+    keys,
     shared::{
         AbstractConfig, CommonConfigTemplate, NodePrivateConfig, NodePublicConfig, SharedConfig,
     },
@@ -52,7 +56,8 @@ pub struct Run;
 impl Run {
     /// Returns created database instance.
     pub fn db_helper(ctx: &Context, options: &DbOptions) -> Box<dyn Database> {
-        let path = ctx.arg::<String>(DATABASE_PATH)
+        let path = ctx
+            .arg::<String>(DATABASE_PATH)
             .unwrap_or_else(|_| panic!("{} not found.", DATABASE_PATH));
         Box::new(RocksDB::open(Path::new(&path), options).expect("Can't load database file"))
     }
@@ -159,7 +164,8 @@ pub struct RunDev;
 
 impl RunDev {
     fn artifacts_directory(ctx: &Context) -> PathBuf {
-        let directory = ctx.arg::<String>("ARTIFACTS_DIR")
+        let directory = ctx
+            .arg::<String>("ARTIFACTS_DIR")
             .unwrap_or_else(|_| ".exonum".into());
         PathBuf::from(&directory)
     }
@@ -219,7 +225,8 @@ impl RunDev {
     }
 
     fn cleanup(ctx: &Context) {
-        let database_dir_path = ctx.arg::<String>(DATABASE_PATH)
+        let database_dir_path = ctx
+            .arg::<String>(DATABASE_PATH)
             .expect("Expected DATABASE_PATH being set.");
         let database_dir = Path::new(&database_dir_path);
         if database_dir.exists() {
@@ -481,7 +488,8 @@ impl Finalize {
             if common != config.common {
                 panic!("Found config with different common part.");
             };
-            if map.insert(config.node.validator_keys.consensus_key, config.node)
+            if map
+                .insert(config.node.validator_keys.consensus_key, config.node)
                 .is_some()
             {
                 panic!("Found duplicate consensus keys in PUBLIC_CONFIGS");

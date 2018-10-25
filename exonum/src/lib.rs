@@ -16,7 +16,12 @@
 //!
 //! For more information see the project readme.
 
-#![deny(missing_debug_implementations, missing_docs, unsafe_code, bare_trait_objects)]
+#![deny(
+    missing_debug_implementations,
+    missing_docs,
+    unsafe_code,
+    bare_trait_objects
+)]
 #![cfg_attr(feature = "long_benchmarks", feature(test))]
 #![cfg_attr(feature = "cargo-clippy", deny(clippy_pedantic))]
 #![cfg_attr(
@@ -27,13 +32,15 @@
           // `filter(..).map(..)` often looks more shorter and readable.
           filter_map,
           // Next lints produce too much noise/false positives.
-          stutter, similar_names,
+          stutter, similar_names, default_trait_access,
           // Variant name ends with the enum's name. Similar behavior to similar_names.
           pub_enum_variant_names,
           // Next lints allowed due to false possitive.
           doc_markdown,
           // Can be enabled when rust-lang-nursery/rust-clippy#2894 is fixed.
           use_self,
+          // '... may panic' lints.
+          indexing_slicing,
     )
 )]
 

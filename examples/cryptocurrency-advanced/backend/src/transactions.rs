@@ -17,8 +17,10 @@
 #![allow(bare_trait_objects)]
 
 use exonum::{
-    blockchain::{ExecutionError, ExecutionResult, Transaction}, crypto::{CryptoHash, PublicKey},
-    messages::Message, storage::Fork,
+    blockchain::{ExecutionError, ExecutionResult, Transaction},
+    crypto::{CryptoHash, PublicKey},
+    messages::Message,
+    storage::Fork,
 };
 
 use schema::CurrencySchema;

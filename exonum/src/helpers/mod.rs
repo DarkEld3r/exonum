@@ -28,7 +28,9 @@ use env_logger::{Builder, Formatter};
 use log::{Level, Record, SetLoggerError};
 
 use std::{
-    env, io::{self, Write}, time::SystemTime,
+    env,
+    io::{self, Write},
+    time::SystemTime,
 };
 
 use blockchain::{GenesisConfig, ValidatorKeys};
@@ -60,19 +62,22 @@ pub fn generate_testnet_config(count: u8, start_port: u16) -> Vec<NodeConfig> {
     let (validators, services): (Vec<_>, Vec<_>) = (0..count as usize)
         .map(|_| (gen_keypair(), gen_keypair()))
         .unzip();
-    let genesis = GenesisConfig::new(validators.iter().zip(services.iter()).map(|x| {
-        ValidatorKeys {
-            consensus_key: (x.0).0,
-            service_key: (x.1).0,
-        }
-    }));
+    let genesis =
+        GenesisConfig::new(
+            validators
+                .iter()
+                .zip(services.iter())
+                .map(|x| ValidatorKeys {
+                    consensus_key: (x.0).0,
+                    service_key: (x.1).0,
+                }),
+        );
     let peers = (0..validators.len())
         .map(|x| {
             format!("127.0.0.1:{}", start_port + x as u16)
                 .parse()
                 .unwrap()
-        })
-        .collect::<Vec<_>>();
+        }).collect::<Vec<_>>();
 
     validators
         .into_iter()
@@ -92,8 +97,7 @@ pub fn generate_testnet_config(count: u8, start_port: u16) -> Vec<NodeConfig> {
             mempool: Default::default(),
             services_configs: Default::default(),
             database: Default::default(),
-        })
-        .collect::<Vec<_>>()
+        }).collect::<Vec<_>>()
 }
 
 fn has_colors() -> bool {

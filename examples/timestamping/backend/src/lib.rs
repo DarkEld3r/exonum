@@ -12,7 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#![deny(missing_debug_implementations, unsafe_code, bare_trait_objects)]
+#![deny(
+    missing_debug_implementations,
+    unsafe_code,
+    bare_trait_objects
+)]
 
 extern crate chrono;
 #[macro_use]
@@ -32,8 +36,12 @@ pub mod schema;
 pub mod transactions;
 
 use exonum::{
-    api::ServiceApiBuilder, blockchain::{self, Transaction, TransactionSet}, crypto::Hash,
-    encoding::Error as StreamStructError, helpers::fabric, messages::RawTransaction,
+    api::ServiceApiBuilder,
+    blockchain::{self, Transaction, TransactionSet},
+    crypto::Hash,
+    encoding::Error as StreamStructError,
+    helpers::fabric,
+    messages::RawTransaction,
     storage::Snapshot,
 };
 

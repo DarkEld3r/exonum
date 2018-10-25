@@ -23,8 +23,10 @@ extern crate exonum_time;
 extern crate exonum_timestamping;
 
 use exonum::{
-    api::node::public::explorer::TransactionQuery, blockchain::Transaction,
-    crypto::{gen_keypair, hash, CryptoHash, Hash}, helpers::Height,
+    api::node::public::explorer::TransactionQuery,
+    blockchain::Transaction,
+    crypto::{gen_keypair, hash, CryptoHash, Hash},
+    helpers::Height,
 };
 use exonum_testkit::{ApiKind, TestKit, TestKitApi, TestKitBuilder};
 use exonum_time::{time_provider::MockTimeProvider, TimeService};
@@ -32,7 +34,10 @@ use exonum_time::{time_provider::MockTimeProvider, TimeService};
 use std::time::SystemTime;
 
 use exonum_timestamping::{
-    api::TimestampQuery, schema::{Timestamp, TimestampEntry}, transactions::TxTimestamp, Service,
+    api::TimestampQuery,
+    schema::{Timestamp, TimestampEntry},
+    transactions::TxTimestamp,
+    Service,
 };
 
 fn init_testkit() -> (TestKit, MockTimeProvider) {
@@ -47,7 +52,8 @@ fn init_testkit() -> (TestKit, MockTimeProvider) {
 
 /// Assert transaction status
 fn assert_status(api: &TestKitApi, tx: &Transaction, expected_status: &serde_json::Value) {
-    let info: serde_json::Value = api.public(ApiKind::Explorer)
+    let info: serde_json::Value = api
+        .public(ApiKind::Explorer)
         .query(&TransactionQuery::new(tx.hash()))
         .get("v1/transactions")
         .unwrap();
@@ -64,7 +70,8 @@ fn assert_status(api: &TestKitApi, tx: &Transaction, expected_status: &serde_jso
 fn test_api_get_timestamp_nothing() {
     let (testkit, _) = init_testkit();
     let api = testkit.api();
-    let entry: Option<TimestampEntry> = api.public(ApiKind::Service("timestamping"))
+    let entry: Option<TimestampEntry> = api
+        .public(ApiKind::Service("timestamping"))
         .query(&TimestampQuery::new(Hash::zero()))
         .get("v1/timestamps/value")
         .unwrap();
@@ -81,7 +88,8 @@ fn test_api_post_timestamp() {
     let tx = TxTimestamp::new(&keypair.0, info, &keypair.1);
 
     let api = testkit.api();
-    let tx_hash: Hash = api.public(ApiKind::Service("timestamping"))
+    let tx_hash: Hash = api
+        .public(ApiKind::Service("timestamping"))
         .query(&tx)
         .post("v1/timestamps")
         .unwrap();
@@ -102,7 +110,8 @@ fn test_api_get_timestamp_proof() {
 
     // get proof
     let api = testkit.api();
-    let _: serde_json::Value = api.public(ApiKind::Service("timestamping"))
+    let _: serde_json::Value = api
+        .public(ApiKind::Service("timestamping"))
         .query(&TimestampQuery::new(Hash::zero()))
         .get("v1/timestamps/proof")
         .unwrap();
@@ -122,7 +131,8 @@ fn test_api_get_timestamp_entry() {
     testkit.create_block_with_transactions(txvec![tx.clone()]);
 
     let api = testkit.api();
-    let entry: Option<TimestampEntry> = api.public(ApiKind::Service("timestamping"))
+    let entry: Option<TimestampEntry> = api
+        .public(ApiKind::Service("timestamping"))
         .query(&TimestampQuery::new(Hash::zero()))
         .get("v1/timestamps/value")
         .unwrap();

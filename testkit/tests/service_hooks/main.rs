@@ -22,7 +22,9 @@ extern crate serde_json;
 pub use hooks::{AfterCommitService, TxAfterCommit};
 
 use exonum::{
-    crypto::{CryptoHash, Signature}, helpers::Height, messages::Message,
+    crypto::{CryptoHash, Signature},
+    helpers::Height,
+    messages::Message,
 };
 use exonum_testkit::TestKitBuilder;
 

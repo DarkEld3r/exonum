@@ -19,7 +19,8 @@
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use super::{
-    key::{BitsRange, ChildKind, ProofMapKey, ProofPath, KEY_SIZE}, node::{BranchNode, Node},
+    key::{BitsRange, ChildKind, ProofMapKey, ProofPath, KEY_SIZE},
+    node::{BranchNode, Node},
 };
 use crypto::{CryptoHash, Hash, HashStream};
 use storage::StorageValue;
@@ -591,8 +592,7 @@ impl<K, V> CheckedMapProof<K, V> {
             .filter_map(|kv| match *kv {
                 (ref key, None) => Some(key),
                 _ => None,
-            })
-            .collect()
+            }).collect()
     }
 
     /// Retrieves references to key-value pairs that the proof shows as present in the map.
@@ -602,8 +602,7 @@ impl<K, V> CheckedMapProof<K, V> {
             .filter_map(|kv| match *kv {
                 (ref key, Some(ref value)) => Some((key, value)),
                 _ => None,
-            })
-            .collect()
+            }).collect()
     }
 
     /// Retrieves references to existing and non-existing entries in the proof.
@@ -899,10 +898,10 @@ where
             builder.create()
         }
 
-        None => keys.into_iter()
+        None => keys
+            .into_iter()
             .fold(MapProofBuilder::new(), |builder, key| {
                 builder.add_missing(key)
-            })
-            .create(),
+            }).create(),
     }
 }

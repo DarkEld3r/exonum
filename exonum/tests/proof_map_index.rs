@@ -27,13 +27,15 @@ extern crate exonum;
 extern crate proptest;
 
 use exonum::storage::{
-    proof_map_index::{ProofMapKey, ProofPath}, Database, MapProof, MemoryDB, ProofMapIndex,
-    Snapshot, StorageValue,
+    proof_map_index::{ProofMapKey, ProofPath},
+    Database, MapProof, MemoryDB, ProofMapIndex, Snapshot, StorageValue,
 };
 use proptest::{num::u8::BinarySearch as U8BinarySearch, prelude::*, test_runner::Config};
 
 use std::{
-    collections::{BTreeMap, BTreeSet}, fmt::Debug, ops::Range,
+    collections::{BTreeMap, BTreeSet},
+    fmt::Debug,
+    ops::Range,
 };
 
 const INDEX_NAME: &str = "index";

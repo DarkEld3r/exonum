@@ -30,7 +30,8 @@ use exonum_testkit::{TestKit, TestKitBuilder};
 
 // Import data types used in tests from the crate where the service is defined.
 use cryptocurrency::{
-    schema::{CurrencySchema, Wallet}, service::CurrencyService,
+    schema::{CurrencySchema, Wallet},
+    service::CurrencyService,
     transactions::{TxCreateWallet, TxTransfer},
 };
 
@@ -225,8 +226,7 @@ fn test_fuzz_transfers() {
                 let (sender, receiver) = (rng.choose(keys).unwrap(), rng.choose(keys).unwrap());
                 let amount = rng.gen_range(0, 250);
                 TxTransfer::new(&sender.0, &receiver.0, amount, rng.next_u64(), &sender.1).into()
-            })
-            .collect();
+            }).collect();
 
         testkit.create_block_with_transactions(txs);
 

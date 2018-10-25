@@ -20,7 +20,8 @@ use rand::{thread_rng, Rng};
 use std::{collections::BTreeMap, time::Duration};
 
 use super::{
-    config_updater::TxConfig, sandbox::{sandbox_with_services_uninitialized, timestamping_sandbox},
+    config_updater::TxConfig,
+    sandbox::{sandbox_with_services_uninitialized, timestamping_sandbox},
     sandbox_tests_helper::*,
     timestamping::{TimestampTx, TimestampingTxGenerator, TIMESTAMPING_SERVICE},
 };

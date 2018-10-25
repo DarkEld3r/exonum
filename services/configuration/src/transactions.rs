@@ -16,7 +16,9 @@
 
 use exonum::{
     blockchain::{ExecutionResult, Schema as CoreSchema, StoredConfiguration, Transaction},
-    crypto::{CryptoHash, Hash, PublicKey}, messages::Message, node::State,
+    crypto::{CryptoHash, Hash, PublicKey},
+    messages::Message,
+    node::State,
     storage::{Fork, Snapshot},
 };
 

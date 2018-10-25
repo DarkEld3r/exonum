@@ -27,7 +27,9 @@ extern crate rand;
 extern crate serde_derive;
 
 use exonum::{
-    blockchain::Transaction, crypto::{self, CryptoHash, PublicKey, SecretKey}, helpers::Height,
+    blockchain::Transaction,
+    crypto::{self, CryptoHash, PublicKey, SecretKey},
+    helpers::Height,
 };
 use exonum_testkit::{ApiKind, TestKit, TestKitApi, TestKitBuilder};
 use rand::Rng;
@@ -48,7 +50,8 @@ fn create_wallet(api: &TestKitApi, name: &str) -> (TxCreateWallet, SecretKey) {
     // Create a pre-signed transaction
     let tx = TxCreateWallet::new(&pubkey, name, &key);
 
-    let tx_info: TransactionResponse = api.public(ApiKind::Service("cryptocurrency"))
+    let tx_info: TransactionResponse = api
+        .public(ApiKind::Service("cryptocurrency"))
         .query(&tx)
         .post("v1/wallets/transaction")
         .unwrap();
@@ -159,8 +162,7 @@ fn test_fuzz_transfers() {
             let (pubkey, key) = crypto::gen_keypair();
             let tx = TxCreateWallet::new(&pubkey, &format!("User #{}", i), &key);
             (key, tx)
-        })
-        .collect();
+        }).collect();
     let pubkeys: Vec<&_> = keys_and_txs
         .iter()
         .map(|&(_, ref tx)| tx.pub_key())
@@ -187,8 +189,7 @@ fn test_fuzz_transfers() {
                 let amount = rng.gen_range(1, 2 * height);
 
                 TxTransfer::new(sender, receiver, amount, rng.next_u64(), sender_key)
-            })
-            .map(Box::<Transaction>::from);
+            }).map(Box::<Transaction>::from);
         testkit.create_block_with_transactions(txs);
     }
 }

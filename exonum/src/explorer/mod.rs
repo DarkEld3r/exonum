@@ -20,8 +20,11 @@
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use std::{
-    cell::{Ref, RefCell}, collections::Bound, fmt,
-    ops::{Index, Range, RangeFrom, RangeFull, RangeTo}, slice,
+    cell::{Ref, RefCell},
+    collections::Bound,
+    fmt,
+    ops::{Index, Range, RangeFrom, RangeFull, RangeTo},
+    slice,
 };
 
 use blockchain::{
@@ -607,7 +610,11 @@ impl<T> CommittedTransaction<T> {
 /// # } // main
 /// ```
 #[derive(Debug, Serialize, Deserialize)]
-#[serde(tag = "type", rename_all = "kebab-case", bound(serialize = "T: SerializeContent"))]
+#[serde(
+    tag = "type",
+    rename_all = "kebab-case",
+    bound(serialize = "T: SerializeContent")
+)]
 pub enum TransactionInfo<T = Box<dyn Transaction>> {
     /// Transaction is in the memory pool, but not yet committed to the blockchain.
     InPool {
@@ -659,7 +666,8 @@ impl SerializeContent for Box<dyn Transaction> {
     {
         use serde::ser::Error;
 
-        let value = self.as_ref()
+        let value = self
+            .as_ref()
             .serialize_field()
             .map_err(|err| S::Error::custom(err.description()))?;
         value.serialize(serializer)

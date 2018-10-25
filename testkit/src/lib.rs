@@ -132,7 +132,12 @@
 //! }
 //! ```
 
-#![deny(missing_debug_implementations, missing_docs, unsafe_code, bare_trait_objects)]
+#![deny(
+    missing_debug_implementations,
+    missing_docs,
+    unsafe_code,
+    bare_trait_objects
+)]
 
 extern crate actix_web;
 #[cfg_attr(test, macro_use)]
@@ -166,12 +171,16 @@ use std::{fmt, net::SocketAddr};
 
 use exonum::{
     api::{
-        backends::actix::{ApiRuntimeConfig, SystemRuntimeConfig}, ApiAccess,
+        backends::actix::{ApiRuntimeConfig, SystemRuntimeConfig},
+        ApiAccess,
     },
     blockchain::{Blockchain, Schema as CoreSchema, Service, StoredConfiguration, Transaction},
-    crypto::{self, Hash}, explorer::{BlockWithTransactions, BlockchainExplorer},
-    helpers::{Height, ValidatorId}, messages::RawMessage,
-    node::{ApiSender, ExternalMessage, State as NodeState}, storage::{MemoryDB, Patch, Snapshot},
+    crypto::{self, Hash},
+    explorer::{BlockWithTransactions, BlockchainExplorer},
+    helpers::{Height, ValidatorId},
+    messages::RawMessage,
+    node::{ApiSender, ExternalMessage, State as NodeState},
+    storage::{MemoryDB, Patch, Snapshot},
 };
 
 use checkpoint_db::{CheckpointDb, CheckpointDbHandler};
@@ -279,18 +288,18 @@ impl fmt::Debug for TestKitBuilder {
         f.debug_struct("TestKitBuilder")
             .field(
                 "us",
-                &self.our_validator_id
+                &self
+                    .our_validator_id
                     .map_or("Auditor".to_string(), |id| format!("Validator #{}", id.0)),
-            )
-            .field("validator_count", &self.validator_count)
+            ).field("validator_count", &self.validator_count)
             .field(
                 "services",
-                &self.services
+                &self
+                    .services
                     .iter()
                     .map(|x| x.service_name())
                     .collect::<Vec<_>>(),
-            )
-            .field("logger", &self.logger)
+            ).field("logger", &self.logger)
             .finish()
     }
 }
@@ -606,9 +615,11 @@ impl TestKit {
             patch
         };
 
-        let propose = self.leader()
+        let propose = self
+            .leader()
             .create_propose(new_block_height, &last_hash, tx_hashes);
-        let precommits: Vec<_> = self.network()
+        let precommits: Vec<_> = self
+            .network()
             .validators()
             .iter()
             .map(|v| v.create_precommit(&propose, &block_hash))
@@ -701,8 +712,7 @@ impl TestKit {
                         schema.add_transaction_into_pool(tx.raw().clone());
 
                         tx_id
-                    })
-                    .collect()
+                    }).collect()
             };
             blockchain.merge(fork.into_patch()).unwrap();
             hashes

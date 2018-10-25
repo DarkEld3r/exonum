@@ -14,7 +14,8 @@
 
 use exonum::{
     blockchain::{ConsensusConfig, GenesisConfig, StoredConfiguration, ValidatorKeys},
-    crypto::{self, CryptoHash}, helpers::{Height, Round, ValidatorId},
+    crypto::{self, CryptoHash},
+    helpers::{Height, Round, ValidatorId},
     messages::{Precommit, Propose},
 };
 use serde::{Deserialize, Serialize};
@@ -82,8 +83,7 @@ impl TestNetwork {
                     us.change_role(Some(validator_id));
                 }
                 validator
-            })
-            .collect::<Vec<_>>();
+            }).collect::<Vec<_>>();
         self.validators = validators;
         self.us.clone_from(&us);
     }
@@ -302,9 +302,9 @@ impl TestNetworkConfiguration {
             .map(|(idx, mut node)| {
                 node.change_role(Some(ValidatorId(idx as u16)));
                 node
-            })
-            .collect();
-        self.stored_configuration.validator_keys = self.validators
+            }).collect();
+        self.stored_configuration.validator_keys = self
+            .validators
             .iter()
             .cloned()
             .map(ValidatorKeys::from)
@@ -317,7 +317,8 @@ impl TestNetworkConfiguration {
     where
         for<'de> D: Deserialize<'de>,
     {
-        let value = self.stored_configuration
+        let value = self
+            .stored_configuration
             .services
             .get(id)
             .expect("Unable to find configuration for service");
@@ -339,7 +340,8 @@ impl TestNetworkConfiguration {
     }
 
     fn update_our_role(&mut self) {
-        let validator_id = self.validators
+        let validator_id = self
+            .validators
             .iter()
             .position(|x| x.public_keys().service_key == self.us.service_public_key)
             .map(|x| ValidatorId(x as u16));

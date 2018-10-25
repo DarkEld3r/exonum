@@ -157,24 +157,8 @@ fn test_overlap_segments() {
 #[should_panic(expected = "SpaceBetweenSegments")]
 fn test_segments_has_spaces_between() {
     let test = vec![
-        16u8,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        18,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0, // <-- link after space
-        1,
-        0, // <-- this is space one
+        16u8, 0, 0, 0, 1, 0, 0, 0, 18, 0, 0, 0, 1, 0, 0, 0, // <-- link after space
+        1, 0, // <-- this is space one
         2,
     ];
     let mut buffer = vec![0; 8];

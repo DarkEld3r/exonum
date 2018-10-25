@@ -19,13 +19,17 @@ use futures::{self, sync::mpsc, Async, Future, Sink, Stream};
 
 use std::{
     cell::{Ref, RefCell, RefMut},
-    collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque}, iter::FromIterator,
-    net::{IpAddr, Ipv4Addr, SocketAddr}, ops::{AddAssign, Deref}, sync::{Arc, Mutex},
+    collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque},
+    iter::FromIterator,
+    net::{IpAddr, Ipv4Addr, SocketAddr},
+    ops::{AddAssign, Deref},
+    sync::{Arc, Mutex},
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
 use super::{
-    config_updater::ConfigUpdateService, sandbox_tests_helper::{VALIDATOR_0, PROPOSE_TIMEOUT},
+    config_updater::ConfigUpdateService,
+    sandbox_tests_helper::{PROPOSE_TIMEOUT, VALIDATOR_0},
     timestamping::TimestampingService,
 };
 use blockchain::{
@@ -109,7 +113,8 @@ impl SandboxInner {
             while let Async::Ready(Some(internal)) = self.internal_requests_rx.poll()? {
                 match internal {
                     InternalRequest::Timeout(t) => self.timers.push(t),
-                    InternalRequest::JumpToRound(height, round) => self.handler
+                    InternalRequest::JumpToRound(height, round) => self
+                        .handler
                         .handle_event(InternalEvent::JumpToRound(height, round).into()),
                     InternalRequest::Shutdown => unimplemented!(),
                 }
@@ -403,8 +408,7 @@ impl Sandbox {
                     return false;
                 }
                 true
-            })
-            .cloned()
+            }).cloned()
             .collect()
     }
 
@@ -838,8 +842,8 @@ mod tests {
     use encoding;
     use messages::RawTransaction;
     use sandbox::sandbox_tests_helper::{
-        add_one_height, SandboxState, VALIDATOR_1, VALIDATOR_2, VALIDATOR_3, HEIGHT_ONE, ROUND_ONE,
-        ROUND_TWO,
+        add_one_height, SandboxState, HEIGHT_ONE, ROUND_ONE, ROUND_TWO, VALIDATOR_1, VALIDATOR_2,
+        VALIDATOR_3,
     };
     use storage::{Fork, Snapshot};
 

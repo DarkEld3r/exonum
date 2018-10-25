@@ -16,9 +16,14 @@ extern crate serde;
 extern crate serde_json;
 
 use exonum::{
-    api, blockchain::{ExecutionResult, Schema as CoreSchema, Service, Transaction, TransactionSet},
-    crypto::{Hash, PublicKey}, encoding, helpers::Height, messages::{Message, RawTransaction},
-    node::TransactionSend, storage::{Fork, MapIndex, Snapshot},
+    api,
+    blockchain::{ExecutionResult, Schema as CoreSchema, Service, Transaction, TransactionSet},
+    crypto::{Hash, PublicKey},
+    encoding,
+    helpers::Height,
+    messages::{Message, RawTransaction},
+    node::TransactionSend,
+    storage::{Fork, MapIndex, Snapshot},
 };
 
 // // // // // // // // // // CONSTANTS // // // // // // // // // //
@@ -191,8 +196,7 @@ impl CryptocurrencyApi {
             .map(|wallet| {
                 let height = CoreSchema::new(&snapshot).height();
                 wallet.actual_balance(height)
-            })
-            .ok_or_else(|| api::Error::NotFound("Wallet not found".to_owned()))
+            }).ok_or_else(|| api::Error::NotFound("Wallet not found".to_owned()))
     }
 
     fn wire(builder: &mut api::ServiceApiBuilder) {

@@ -336,7 +336,8 @@ impl ExonumJson for Vec<RawMessage> {
     }
 
     fn serialize_field(&self) -> Result<Value, Box<dyn Error + Send + Sync>> {
-        let vec = self.iter()
+        let vec = self
+            .iter()
             .map(|slice| Value::String(::encoding::serialize::encode_hex(slice)))
             .collect();
         Ok(Value::Array(vec))

@@ -14,9 +14,13 @@
 
 //! Sample counter service.
 use exonum::{
-    api, blockchain::{ExecutionError, ExecutionResult, Service, Transaction, TransactionSet},
-    crypto::{Hash, PublicKey}, encoding, messages::{Message, RawTransaction},
-    node::TransactionSend, storage::{Entry, Fork, Snapshot},
+    api,
+    blockchain::{ExecutionError, ExecutionResult, Service, Transaction, TransactionSet},
+    crypto::{Hash, PublicKey},
+    encoding,
+    messages::{Message, RawTransaction},
+    node::TransactionSend,
+    storage::{Entry, Fork, Snapshot},
 };
 
 pub const SERVICE_ID: u16 = 1;

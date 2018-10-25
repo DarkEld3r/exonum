@@ -14,7 +14,8 @@
 
 use exonum::{
     blockchain::{Schema, StoredConfiguration, Transaction},
-    crypto::{hash, CryptoHash, Hash, HASH_SIZE}, helpers::{Height, ValidatorId},
+    crypto::{hash, CryptoHash, Hash, HASH_SIZE},
+    helpers::{Height, ValidatorId},
     storage::StorageValue,
 };
 use exonum_testkit::{TestKit, TestKitBuilder, TestNode};
@@ -79,7 +80,8 @@ impl ConfigurationTestKit for TestKit {
         self.create_block_with_transactions(txvec![tx_propose]);
         // Push votes
         let cfg_proposal_hash = cfg_proposal.hash();
-        let tx_votes = self.network()
+        let tx_votes = self
+            .network()
             .validators()
             .iter()
             .map(|validator| new_tx_config_vote(validator, cfg_proposal_hash))
@@ -411,9 +413,11 @@ fn test_discard_votes_with_expired_actual_from() {
     testkit.create_blocks_until(Height(10));
     let illegal_vote = new_tx_config_vote(&testkit.network().validators()[0], new_cfg.hash());
     testkit.create_block_with_transactions(txvec![illegal_vote.clone()]);
-    assert!(!testkit
-        .votes_for_propose(new_cfg.hash())
-        .contains(&Some(VotingDecision::Yea(illegal_vote))));
+    assert!(
+        !testkit
+            .votes_for_propose(new_cfg.hash())
+            .contains(&Some(VotingDecision::Yea(illegal_vote)))
+    );
 }
 
 #[test]
@@ -522,9 +526,11 @@ fn test_config_txs_discarded_when_not_referencing_actual_config_or_sent_by_illeg
         let illegal_node = TestNode::new_auditor();
         let illegal_validator_vote = new_tx_config_vote(&illegal_node, discarded_votes_cfg.hash());
         testkit.create_block_with_transactions(txvec![illegal_validator_vote.clone()]);
-        assert!(!testkit
-            .votes_for_propose(discarded_votes_cfg.hash())
-            .contains(&Some(VotingDecision::Yea(illegal_validator_vote))))
+        assert!(
+            !testkit
+                .votes_for_propose(discarded_votes_cfg.hash())
+                .contains(&Some(VotingDecision::Yea(illegal_validator_vote)))
+        )
     }
     {
         let votes = (0..3)
@@ -560,8 +566,7 @@ fn test_config_txs_discarded_when_not_referencing_actual_config_or_sent_by_illeg
                     &testkit.network().validators()[id],
                     discarded_votes_cfg.hash(),
                 )
-            })
-            .collect::<Vec<_>>();
+            }).collect::<Vec<_>>();
         testkit.create_block_with_transactions(expected_votes.clone().into_iter().map(to_boxed));
 
         let actual_votes = testkit.votes_for_propose(discarded_votes_cfg.hash());
@@ -596,8 +601,7 @@ fn test_regression_majority_votes_for_different_proposes() {
             .map(|cfg| {
                 let validator = &testkit.network().validators()[1];
                 new_tx_config_propose(&validator, cfg.clone())
-            })
-            .map(to_boxed)
+            }).map(to_boxed)
             .collect::<Vec<_>>();
         testkit.create_block_with_transactions(proposes);
     }
@@ -606,8 +610,7 @@ fn test_regression_majority_votes_for_different_proposes() {
             .map(|validator| {
                 let validator = &testkit.network().validators()[validator];
                 new_tx_config_vote(validator, new_cfg1.hash())
-            })
-            .map(to_boxed)
+            }).map(to_boxed)
             .collect::<Vec<_>>();
         testkit.create_block_with_transactions(votes);
         assert_eq!(
@@ -661,8 +664,7 @@ fn test_regression_new_vote_for_older_config_applies_old_config() {
             .map(|validator| {
                 let validator = &testkit.network().validators()[validator];
                 new_tx_config_vote(validator, new_cfg1.hash())
-            })
-            .map(to_boxed)
+            }).map(to_boxed)
             .collect::<Vec<_>>();
         testkit.create_block_with_transactions(votes);
         assert_eq!(
@@ -678,8 +680,7 @@ fn test_regression_new_vote_for_older_config_applies_old_config() {
             .map(|validator| {
                 let validator = &testkit.network().validators()[validator];
                 new_tx_config_vote(validator, new_cfg2.hash())
-            })
-            .map(to_boxed)
+            }).map(to_boxed)
             .collect::<Vec<_>>();
         testkit.create_block_with_transactions(votes);
         assert_eq!(Height(4), testkit.height());

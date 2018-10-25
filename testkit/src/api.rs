@@ -24,7 +24,8 @@ use serde_urlencoded;
 use std::fmt::{self, Display};
 
 use exonum::{
-    api::{self, ApiAggregator, ServiceApiState}, blockchain::{SharedNodeState, Transaction},
+    api::{self, ApiAggregator, ServiceApiState},
+    blockchain::{SharedNodeState, Transaction},
     encoding::serialize::reexport::{DeserializeOwned, Serialize},
     node::{ApiSender, TransactionSend},
 };
@@ -182,15 +183,15 @@ where
     where
         R: DeserializeOwned + 'static,
     {
-        let params = self.query
+        let params = self
+            .query
             .as_ref()
             .map(|query| {
                 format!(
                     "?{}",
                     serde_urlencoded::to_string(query).expect("Unable to serialize query.")
                 )
-            })
-            .unwrap_or_default();
+            }).unwrap_or_default();
         let url = format!(
             "{url}{access}/{prefix}/{endpoint}{query}",
             url = self.test_server_url,
@@ -202,7 +203,8 @@ where
 
         trace!("GET {}", url);
 
-        let response = self.test_client
+        let response = self
+            .test_client
             .get(&url)
             .send()
             .expect("Unable to send request");
@@ -282,8 +284,7 @@ fn create_test_server(aggregator: ApiAggregator) -> TestServer {
             .scope("public/api", |scope| {
                 trace!("Create public/api");
                 aggregator.extend_backend(ApiAccess::Public, scope)
-            })
-            .scope("private/api", |scope| {
+            }).scope("private/api", |scope| {
                 trace!("Create private/api");
                 aggregator.extend_backend(ApiAccess::Private, scope)
             })

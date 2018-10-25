@@ -33,8 +33,10 @@
 //! [doc:create-service]: https://exonum.com/doc/get-started/create-service
 
 pub use self::{
-    block::{Block, BlockProof}, config::{ConsensusConfig, StoredConfiguration, ValidatorKeys},
-    genesis::GenesisConfig, schema::{Schema, TxLocation},
+    block::{Block, BlockProof},
+    config::{ConsensusConfig, StoredConfiguration, ValidatorKeys},
+    genesis::GenesisConfig,
+    schema::{Schema, TxLocation},
     service::{Service, ServiceContext, SharedNodeState},
     transaction::{
         ExecutionError, ExecutionResult, Transaction, TransactionError, TransactionErrorType,
@@ -49,8 +51,12 @@ use failure;
 use vec_map::VecMap;
 
 use std::{
-    collections::{BTreeMap, HashMap}, error::Error as StdError, fmt, iter, mem, net::SocketAddr,
-    panic, sync::Arc,
+    collections::{BTreeMap, HashMap},
+    error::Error as StdError,
+    fmt, iter, mem,
+    net::SocketAddr,
+    panic,
+    sync::Arc,
 };
 
 use crypto::{self, CryptoHash, Hash, PublicKey, SecretKey};
@@ -144,7 +150,8 @@ impl Blockchain {
     /// - Service can deserialize the given raw message.
     pub fn tx_from_raw(&self, raw: RawMessage) -> Result<Box<dyn Transaction>, MessageError> {
         let id = raw.service_id() as usize;
-        let service = self.service_map
+        let service = self
+            .service_map
             .get(id)
             .ok_or_else(|| MessageError::from("Service not found."))?;
         service.tx_from_raw(raw)
@@ -391,7 +398,8 @@ impl Blockchain {
                 .get(&tx_hash)
                 .ok_or_else(|| failure::err_msg("BUG: Cannot find transaction in database."))?;
 
-            let service_name = self.service_map
+            let service_name = self
+                .service_map
                 .get(tx.service_id() as usize)
                 .ok_or_else(|| failure::err_msg("Service not found."))?
                 .service_name();

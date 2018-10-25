@@ -83,8 +83,7 @@ mod test {
             .into_iter()
             .map(|_| {
                 PublicKey::from_slice(&<[u8; PUBLIC_KEY_LENGTH] as Rand>::rand(&mut rng)).unwrap()
-            })
-            .collect()
+            }).collect()
     }
 
     fn check_in_connect_list(

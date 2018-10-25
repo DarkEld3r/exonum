@@ -18,7 +18,9 @@
 use serde_json::Value;
 
 use std::{
-    collections::{HashMap, HashSet}, net::SocketAddr, sync::{Arc, RwLock},
+    collections::{HashMap, HashSet},
+    net::SocketAddr,
+    sync::{Arc, RwLock},
 };
 
 use super::transaction::Transaction;
@@ -418,14 +420,14 @@ impl SharedNodeState {
     /// Returns a boolean value which indicates whether the consensus is achieved.
     pub fn consensus_status(&self) -> bool {
         let lock = self.state.read().expect("Expected read lock.");
-        let mut active_validators = lock.peers_info
+        let mut active_validators = lock
+            .peers_info
             .values()
             .filter(|peer_key| {
                 lock.validators
                     .iter()
                     .any(|validator| validator.consensus_key == **peer_key)
-            })
-            .count();
+            }).count();
 
         if lock.node_role.is_validator() {
             // Peers list doesn't include current node address, so we have to increment its length.

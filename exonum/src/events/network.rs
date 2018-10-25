@@ -14,16 +14,19 @@
 
 use futures::{future, future::Either, sync::mpsc, unsync, Future, IntoFuture, Poll, Sink, Stream};
 use tokio_core::{
-    net::{TcpListener, TcpStream}, reactor::Handle,
+    net::{TcpListener, TcpStream},
+    reactor::Handle,
 };
 use tokio_retry::{
-    strategy::{jitter, FixedInterval}, Retry,
+    strategy::{jitter, FixedInterval},
+    Retry,
 };
 
 use std::{cell::RefCell, collections::HashMap, io, net::SocketAddr, rc::Rc, time::Duration};
 
 use super::{
-    error::{into_other, log_error, other_error, result_ok}, to_box,
+    error::{into_other, log_error, other_error, result_ok},
+    to_box,
 };
 use crypto::PublicKey;
 use events::noise::{Handshake, HandshakeParams, NoiseHandshake};
@@ -189,15 +192,15 @@ impl ConnectionsPool {
         peer: SocketAddr,
         network_tx: mpsc::Sender<NetworkEvent>,
     ) -> Box<dyn Future<Item = (), Error = io::Error>> {
-        let fut = self.remove(&peer)
+        let fut = self
+            .remove(&peer)
             .into_future()
             .map_err(other_error)
             .and_then(move |_| {
                 network_tx
                     .send(NetworkEvent::PeerDisconnected(peer))
                     .map_err(|_| other_error("can't send disconnect"))
-            })
-            .map(drop);
+            }).map(drop);
         to_box(fut)
     }
 }
@@ -383,8 +386,7 @@ impl Listener {
                     ))),
                     Some(Err(e)) => Err(into_other(e)),
                     None => Err(other_error("Incoming socket closed")),
-                })
-                .and_then(move |(connect, stream)| {
+                }).and_then(move |(connect, stream)| {
                     trace!("Received handshake message={:?}", connect);
                     let event = NetworkEvent::PeerConnected(addr, connect);
                     let stream = network_tx
@@ -398,12 +400,10 @@ impl Listener {
                         let event = NetworkEvent::MessageReceived(addr, raw);
                         network_tx.clone().send(event).map_err(into_other).map(drop)
                     })
-                })
-                .map(|_| {
+                }).map(|_| {
                     // Ensure that holder lives until the stream ends.
                     let _holder = holder;
-                })
-                .map_err(log_error);
+                }).map_err(log_error);
             handle.spawn(to_box(connection_handler));
             to_box(future::ok(()))
         });

@@ -17,8 +17,8 @@ use std::time::Duration;
 use super::{
     sandbox::timestamping_sandbox,
     sandbox_tests_helper::{
-        gen_timestamping_tx, VALIDATOR_0, VALIDATOR_1, VALIDATOR_2, VALIDATOR_3, HEIGHT_ONE,
-        ROUND_ONE, ROUND_THREE,
+        gen_timestamping_tx, HEIGHT_ONE, ROUND_ONE, ROUND_THREE, VALIDATOR_0, VALIDATOR_1,
+        VALIDATOR_2, VALIDATOR_3,
     },
 };
 use blockchain::Block;

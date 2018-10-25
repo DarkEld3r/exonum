@@ -32,7 +32,9 @@ use exonum_testkit::{ApiKind, TestKit, TestKitApi, TestKitBuilder};
 
 // Import data types used in tests from the crate where the service is defined.
 use cryptocurrency::{
-    api::{WalletInfo, WalletQuery}, transactions::{CreateWallet, Transfer}, wallet::Wallet,
+    api::{WalletInfo, WalletQuery},
+    transactions::{CreateWallet, Transfer},
+    wallet::Wallet,
     CurrencyService,
 };
 
@@ -219,7 +221,8 @@ impl CryptocurrencyApi {
         // Create a pre-signed transaction
         let tx = CreateWallet::new(&pubkey, name, &key);
 
-        let tx_info: serde_json::Value = self.inner
+        let tx_info: serde_json::Value = self
+            .inner
             .public(ApiKind::Service("cryptocurrency"))
             .query(&tx)
             .post("v1/wallets/transaction")
@@ -229,7 +232,8 @@ impl CryptocurrencyApi {
     }
 
     fn get_wallet(&self, pub_key: PublicKey) -> Option<Wallet> {
-        let wallet_info = self.inner
+        let wallet_info = self
+            .inner
             .public(ApiKind::Service("cryptocurrency"))
             .query(&WalletQuery { pub_key })
             .get::<WalletInfo>("v1/wallets/info")
@@ -246,7 +250,8 @@ impl CryptocurrencyApi {
 
     /// Sends a transfer transaction over HTTP and checks the synchronous result.
     fn transfer(&self, tx: &Transfer) {
-        let tx_info: serde_json::Value = self.inner
+        let tx_info: serde_json::Value = self
+            .inner
             .public(ApiKind::Service("cryptocurrency"))
             .query(&tx)
             .post("v1/wallets/transaction")
@@ -256,7 +261,8 @@ impl CryptocurrencyApi {
 
     /// Asserts that a wallet with the specified public key is not known to the blockchain.
     fn assert_no_wallet(&self, pub_key: PublicKey) {
-        let wallet_info: WalletInfo = self.inner
+        let wallet_info: WalletInfo = self
+            .inner
             .public(ApiKind::Service("cryptocurrency"))
             .query(&WalletQuery { pub_key })
             .get("v1/wallets/info")
@@ -274,7 +280,8 @@ impl CryptocurrencyApi {
 
     /// Asserts that the transaction with the given hash has a specified status.
     fn assert_tx_status(&self, tx_hash: Hash, expected_status: &serde_json::Value) {
-        let info: serde_json::Value = self.inner
+        let info: serde_json::Value = self
+            .inner
             .public(ApiKind::Explorer)
             .query(&TransactionQuery::new(tx_hash))
             .get("v1/transactions")

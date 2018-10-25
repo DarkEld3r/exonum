@@ -23,7 +23,9 @@ use serde_json::Value as JsonValue;
 
 use exonum::{
     blockchain::{Schema, Transaction, TransactionErrorType, TxLocation},
-    crypto::{self, CryptoHash, Hash}, explorer::*, helpers::Height,
+    crypto::{self, CryptoHash, Hash},
+    explorer::*,
+    helpers::Height,
     messages::{Message, ServiceMessage},
 };
 

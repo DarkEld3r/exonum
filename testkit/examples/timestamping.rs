@@ -21,8 +21,10 @@ extern crate serde_json;
 use exonum::{
     api::node::public::explorer::{BlocksQuery, BlocksRange, TransactionQuery},
     blockchain::{ExecutionResult, Schema, Service, Transaction, TransactionSet},
-    crypto::{gen_keypair, CryptoHash, Hash, PublicKey}, encoding,
-    messages::{Message, RawTransaction}, storage::{Fork, Snapshot},
+    crypto::{gen_keypair, CryptoHash, Hash, PublicKey},
+    encoding,
+    messages::{Message, RawTransaction},
+    storage::{Fork, Snapshot},
 };
 use exonum_testkit::{ApiKind, TestKitBuilder};
 
@@ -99,12 +101,12 @@ fn main() {
 
     // Check results with api.
     let api = testkit.api();
-    let blocks_range: BlocksRange = api.public(ApiKind::Explorer)
+    let blocks_range: BlocksRange = api
+        .public(ApiKind::Explorer)
         .query(&BlocksQuery {
             count: 10,
             ..Default::default()
-        })
-        .get("v1/blocks")
+        }).get("v1/blocks")
         .unwrap();
     assert_eq!(blocks_range.blocks.len(), 2);
 

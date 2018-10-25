@@ -19,7 +19,8 @@ use failure;
 use serde_json::Value;
 
 use std::{
-    collections::{hash_map::Entry, BTreeMap, HashMap, HashSet}, net::SocketAddr,
+    collections::{hash_map::Entry, BTreeMap, HashMap, HashSet},
+    net::SocketAddr,
     time::{Duration, SystemTime},
 };
 
@@ -538,7 +539,8 @@ impl State {
     pub fn remove_peer_with_addr(&mut self, addr: &SocketAddr) -> bool {
         if let Some(pubkey) = self.connections.remove(addr) {
             self.peers.remove(&pubkey);
-            return self.config
+            return self
+                .config
                 .validator_keys
                 .iter()
                 .any(|x| x.consensus_key == pubkey);
@@ -636,7 +638,8 @@ impl State {
 
     /// Updates known height for a validator identified by the public key.
     pub fn set_node_height(&mut self, key: PublicKey, height: Height) {
-        *self.nodes_max_height
+        *self
+            .nodes_max_height
             .entry(key)
             .or_insert_with(Height::zero) = height;
     }
@@ -975,7 +978,8 @@ impl State {
 
         let key = (msg.round(), *msg.propose_hash());
         let validators_len = self.validators().len();
-        let votes = self.prevotes
+        let votes = self
+            .prevotes
             .entry(key)
             .or_insert_with(|| Votes::new(validators_len));
         votes.insert(msg);
@@ -1032,7 +1036,8 @@ impl State {
 
         let key = (msg.round(), *msg.block_hash());
         let validators_len = self.validators().len();
-        let votes = self.precommits
+        let votes = self
+            .precommits
             .entry(key)
             .or_insert_with(|| Votes::new(validators_len));
         votes.insert(msg);

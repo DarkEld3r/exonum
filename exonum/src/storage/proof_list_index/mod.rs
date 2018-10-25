@@ -20,8 +20,9 @@ use std::{cell::Cell, marker::PhantomData};
 
 use self::key::ProofListKey;
 use super::{
-    base_index::{BaseIndex, BaseIndexIter}, indexes_metadata::IndexType, Fork, Snapshot,
-    StorageKey, StorageValue,
+    base_index::{BaseIndex, BaseIndexIter},
+    indexes_metadata::IndexType,
+    Fork, Snapshot, StorageKey, StorageValue,
 };
 use crypto::{hash, Hash, HashStream};
 

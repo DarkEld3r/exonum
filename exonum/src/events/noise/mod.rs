@@ -25,7 +25,9 @@ pub use self::wrappers::sodium_wrapper::{
 use byteorder::{ByteOrder, LittleEndian};
 use futures::future::Future;
 use tokio_io::{
-    codec::Framed, io::{read_exact, write_all}, AsyncRead, AsyncWrite,
+    codec::Framed,
+    io::{read_exact, write_all},
+    AsyncRead, AsyncWrite,
 };
 
 use std::io;
@@ -64,8 +66,7 @@ impl HandshakeRawMessage {
             .and_then(|(stream, msg)| {
                 let len = LittleEndian::read_uint(&msg, HANDSHAKE_HEADER_LENGTH);
                 read_exact(stream, vec![0_u8; len as usize])
-            })
-            .and_then(|(stream, msg)| Ok((stream, HandshakeRawMessage(msg))))
+            }).and_then(|(stream, msg)| Ok((stream, HandshakeRawMessage(msg))))
     }
 
     pub fn write<S: AsyncWrite + 'static>(

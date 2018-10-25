@@ -57,8 +57,7 @@ impl NodeInfo {
                 .map(|s| ServiceInfo {
                     name: s.service_name().to_owned(),
                     id: s.service_id(),
-                })
-                .collect(),
+                }).collect(),
         }
     }
 }

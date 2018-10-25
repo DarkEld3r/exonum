@@ -18,7 +18,8 @@ use self::ListProof::*;
 use super::{pair_hash, ListProof, ProofListIndex};
 use crypto::{hash, CryptoHash, Hash};
 use encoding::serialize::{
-    json::reexport::{from_str, to_string}, reexport::Serialize,
+    json::reexport::{from_str, to_string},
+    reexport::Serialize,
 };
 use storage::Database;
 

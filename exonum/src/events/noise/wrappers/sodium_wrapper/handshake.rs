@@ -19,10 +19,12 @@ use std::io;
 
 use super::wrapper::NoiseWrapper;
 use crypto::{
-    x25519::{self, into_x25519_keypair, into_x25519_public_key}, PublicKey, SecretKey,
+    x25519::{self, into_x25519_keypair, into_x25519_public_key},
+    PublicKey, SecretKey,
 };
 use events::{
-    codec::MessagesCodec, noise::{Handshake, HandshakeRawMessage, HandshakeResult},
+    codec::MessagesCodec,
+    noise::{Handshake, HandshakeRawMessage, HandshakeResult},
 };
 
 /// Params needed to establish secured connection using Noise Protocol.
@@ -109,7 +111,8 @@ impl Handshake for NoiseHandshake {
     where
         S: AsyncRead + AsyncWrite + 'static,
     {
-        let framed = self.read_handshake_msg(stream)
+        let framed = self
+            .read_handshake_msg(stream)
             .and_then(|(stream, handshake)| handshake.write_handshake_msg(stream))
             .and_then(|(stream, handshake)| handshake.read_handshake_msg(stream))
             .and_then(|(stream, handshake)| handshake.finalize(stream));
@@ -120,7 +123,8 @@ impl Handshake for NoiseHandshake {
     where
         S: AsyncRead + AsyncWrite + 'static,
     {
-        let framed = self.write_handshake_msg(stream)
+        let framed = self
+            .write_handshake_msg(stream)
             .and_then(|(stream, handshake)| handshake.read_handshake_msg(stream))
             .and_then(|(stream, handshake)| handshake.write_handshake_msg(stream))
             .and_then(|(stream, handshake)| handshake.finalize(stream));

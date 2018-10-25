@@ -21,7 +21,8 @@ use bytes::BytesMut;
 use snow::{NoiseBuilder, Session};
 
 use std::{
-    fmt::{self, Error, Formatter}, io,
+    fmt::{self, Error, Formatter},
+    io,
 };
 
 use super::{handshake::HandshakeParams, resolver::SodiumResolver};
